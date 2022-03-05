@@ -22,7 +22,6 @@ https://github.com/pengutronix/genimage/releases/download/v15/genimage-15.tar.xz
 https://github.com/raspberrypi/firmware/raw/master/boot/bootcode.bin
 https://github.com/raspberrypi/firmware/raw/master/boot/fixup4.dat
 https://github.com/raspberrypi/firmware/raw/master/boot/start4.elf
-https://github.com/raspberrypi/rpi-eeprom/archive/refs/tags/v2022.01.25-138a1.tar.gz
 https://github.com/raspberrypi/linux/archive/1.20220120.tar.gz
 https://github.com/westes/flex/releases/download/v2.6.4/flex-2.6.4.tar.gz
 https://kernel.org/pub/linux/utils/util-linux/v2.37/util-linux-2.37.4.tar.xz
