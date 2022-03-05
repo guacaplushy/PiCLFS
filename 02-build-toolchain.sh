@@ -87,7 +87,6 @@ function check_tarballs {
     dosfstools-4.2.tar.gz
     confuse-3.3.tar.xz
     genimage-15.tar.xz
-    v2022.01.25-138a1.tar.gz
     1.20220120.tar.gz
     flex-2.6.4.tar.gz
     util-linux-2.37.4.tar.xz
