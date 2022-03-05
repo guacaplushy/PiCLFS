@@ -89,18 +89,18 @@ total_build_time=$(timer)
 rm -rf $BUILD_DIR $KERNEL_DIR
 mkdir -pv $BUILD_DIR $KERNEL_DIR
 
-step "[1/1] Raspberry Pi Linux 4.19.93"
-extract $SOURCES_DIR/raspberrypi-kernel_1.20200212-1.tar.gz $BUILD_DIR
-make -j$PARALLEL_JOBS ARCH=$CONFIG_LINUX_ARCH mrproper -C $BUILD_DIR/linux-raspberrypi-kernel_1.20200212-1
-make -j$PARALLEL_JOBS ARCH=$CONFIG_LINUX_ARCH $CONFIG_LINUX_KERNEL_DEFCONFIG -C $BUILD_DIR/linux-raspberrypi-kernel_1.20200212-1
-make -j$PARALLEL_JOBS ARCH=$CONFIG_LINUX_ARCH HOSTCC="gcc -O2 -I$TOOLS_DIR/include -L$TOOLS_DIR/lib -Wl,-rpath,$TOOLS_DIR/lib" CROSS_COMPILE="$TOOLS_DIR/bin/$CONFIG_TARGET-" Image modules dtbs -C $BUILD_DIR/linux-raspberrypi-kernel_1.20200212-1
-make -j$PARALLEL_JOBS ARCH=$CONFIG_LINUX_ARCH HOSTCC="gcc -O2 -I$TOOLS_DIR/include -L$TOOLS_DIR/lib -Wl,-rpath,$TOOLS_DIR/lib" CROSS_COMPILE="$TOOLS_DIR/bin/$CONFIG_TARGET-" INSTALL_MOD_PATH=$ROOTFS_DIR modules_install -C $BUILD_DIR/linux-raspberrypi-kernel_1.20200212-1
+step "[1/1] Raspberry Pi Linux"
+extract $SOURCES_DIR/1.20220120.tar.gz $BUILD_DIR
+make -j$PARALLEL_JOBS ARCH=$CONFIG_LINUX_ARCH mrproper -C $BUILD_DIR/linux-1.20220120
+make -j$PARALLEL_JOBS ARCH=$CONFIG_LINUX_ARCH $CONFIG_LINUX_KERNEL_DEFCONFIG -C $BUILD_DIR/linux-1.20220120
+make -j$PARALLEL_JOBS ARCH=$CONFIG_LINUX_ARCH HOSTCC="gcc -O2 -I$TOOLS_DIR/include -L$TOOLS_DIR/lib -Wl,-rpath,$TOOLS_DIR/lib" CROSS_COMPILE="$TOOLS_DIR/bin/$CONFIG_TARGET-" Image modules dtbs -C $BUILD_DIR/linux-1.20220120
+make -j$PARALLEL_JOBS ARCH=$CONFIG_LINUX_ARCH HOSTCC="gcc -O2 -I$TOOLS_DIR/include -L$TOOLS_DIR/lib -Wl,-rpath,$TOOLS_DIR/lib" CROSS_COMPILE="$TOOLS_DIR/bin/$CONFIG_TARGET-" INSTALL_MOD_PATH=$ROOTFS_DIR modules_install -C $BUILD_DIR/linux-1.20220120
 mkdir -pv $KERNEL_DIR/overlays
-cp -v $BUILD_DIR/linux-raspberrypi-kernel_1.20200212-1/arch/arm64/boot/Image $KERNEL_DIR
-cp -v $BUILD_DIR/linux-raspberrypi-kernel_1.20200212-1/arch/arm64/boot/dts/broadcom/*.dtb $KERNEL_DIR
-cp -v $BUILD_DIR/linux-raspberrypi-kernel_1.20200212-1/arch/arm/boot/dts/overlays/*.dtb* $KERNEL_DIR/overlays/
-cp -v $BUILD_DIR/linux-raspberrypi-kernel_1.20200212-1/arch/arm/boot/dts/overlays/README $KERNEL_DIR/overlays/
+cp -v $BUILD_DIR/linux-1.20220120/arch/arm64/boot/Image $KERNEL_DIR
+cp -v $BUILD_DIR/linux-1.20220120/arch/arm64/boot/dts/broadcom/*.dtb $KERNEL_DIR
+cp -v $BUILD_DIR/linux-1.20220120/arch/arm/boot/dts/overlays/*.dtb* $KERNEL_DIR/overlays/
+cp -v $BUILD_DIR/linux-1.20220120/arch/arm/boot/dts/overlays/README $KERNEL_DIR/overlays/
 
-rm -rf $BUILD_DIR/linux-raspberrypi-kernel_1.20200212-1
+rm -rf $BUILD_DIR/linux-1.20220120
 
 success "\nTotal kernel build time: $(timer $total_build_time)\n"
