@@ -71,7 +71,7 @@ function check_tarballs {
     busybox-1.35.0.tar.bz2
     e2fsprogs-1.46.5.tar.gz
     autoconf-2.71.tar.xz
-    automake-1.16.5.tar.xz
+    automake-1.16.1.tar.xz
     bash-5.1.16.tar.gz
     binutils-2.38.tar.xz
     bison-3.8.tar.xz
