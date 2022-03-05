@@ -84,7 +84,7 @@ function check_tarballs {
     mpfr-4.1.0.tar.xz
     mtools-4.0.38.tar.bz2
     openssl-1.1.1m.tar.gz
-    dosfstools-4.2.tar.xz
+    dosfstools-4.2.tar.gz
     confuse-3.3.tar.xz
     genimage-15.tar.xz
     v2022.01.25-138a1.tar.gz
