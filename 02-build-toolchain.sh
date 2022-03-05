@@ -68,11 +68,10 @@ function check_tarballs {
     LIST_OF_TARBALLS="
     elfutils-0.186.tar.bz2
     fakeroot_1.27.orig.tar.gz
-    busybox-1.35.0.tar.bz2
+    busybox-1.34.1.tar.bz2
     e2fsprogs-1.46.5.tar.gz
     autoconf-2.71.tar.xz
     automake-1.16.1.tar.xz
-    bash-5.1.16.tar.gz
     binutils-2.38.tar.xz
     bison-3.8.tar.xz
     gawk-5.1.1.tar.xz
@@ -90,7 +89,7 @@ function check_tarballs {
     genimage-15.tar.xz
     v2022.01.25-138a1.tar.gz
     1.20220120.tar.gz
-    flex-2.6.3.tar.gz
+    flex-2.6.4.tar.gz
     util-linux-2.37.4.tar.xz
     pkgconf-1.8.0.tar.xz
     zlib-1.2.11.tar.xz
