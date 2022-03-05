@@ -173,14 +173,14 @@ ln -svf /tmp $ROOTFS_DIR/var/tmp
 ln -svf /tmp/log $ROOTFS_DIR/dev/log
 ln -svf /tmp/resolv.conf $ROOTFS_DIR/etc/resolv.conf
 
-step "[3/9] Copy GCC 9.2.0 Library"
+step "[3/9] Copy GCC Library"
 cp -v $TOOLS_DIR/$CONFIG_TARGET/lib64/libgcc_s* $ROOTFS_DIR/lib/
 cp -v $TOOLS_DIR/$CONFIG_TARGET/lib64/libatomic* $ROOTFS_DIR/lib/
 
-step "[4/9] Glibc 2.29"
-extract $SOURCES_DIR/glibc-2.30.tar.xz $BUILD_DIR
-mkdir -pv $BUILD_DIR/glibc-2.30/glibc-build
-( cd $BUILD_DIR/glibc-2.30/glibc-build && \
+step "[4/9] Glibc"
+extract $SOURCES_DIR/glibc-2.35.tar.xz $BUILD_DIR
+mkdir -pv $BUILD_DIR/glibc-2.35/glibc-build
+( cd $BUILD_DIR/glibc-2.35/glibc-build && \
     CC="$TOOLS_DIR/bin/$CONFIG_TARGET-gcc" \
     CXX="$TOOLS_DIR/bin/$CONFIG_TARGET-g++" \
     AR="$TOOLS_DIR/bin/$CONFIG_TARGET-ar" \
@@ -193,7 +193,7 @@ mkdir -pv $BUILD_DIR/glibc-2.30/glibc-build
     ac_cv_path_BASH_SHELL=/bin/bash \
     libc_cv_forced_unwind=yes \
     libc_cv_ssp=no \
-    $BUILD_DIR/glibc-2.30/configure \
+    $BUILD_DIR/glibc-2.35/configure \
     --target=$CONFIG_TARGET \
     --host=$CONFIG_TARGET \
     --build=$CONFIG_HOST \
@@ -203,19 +203,19 @@ mkdir -pv $BUILD_DIR/glibc-2.30/glibc-build
     --disable-profile \
     --without-gd \
     --enable-obsolete-rpc \
-    --enable-kernel=4.19 \
+    --enable-kernel=5.10 \
     --with-headers=$SYSROOT_DIR/usr/include )
-make -j$PARALLEL_JOBS -C $BUILD_DIR/glibc-2.30/glibc-build
-make -j$PARALLEL_JOBS install_root=$ROOTFS_DIR install -C $BUILD_DIR/glibc-2.30/glibc-build
-rm -rf $BUILD_DIR/glibc-2.30
+make -j$PARALLEL_JOBS -C $BUILD_DIR/glibc-2.35/glibc-build
+make -j$PARALLEL_JOBS install_root=$ROOTFS_DIR install -C $BUILD_DIR/glibc-2.35/glibc-build
+rm -rf $BUILD_DIR/glibc-2.35
 
-step "[5/9] Busybox 1.31.1"
-extract $SOURCES_DIR/busybox-1.31.1.tar.bz2 $BUILD_DIR
-make -j$PARALLEL_JOBS distclean -C $BUILD_DIR/busybox-1.31.1
-make -j$PARALLEL_JOBS ARCH=$CONFIG_LINUX_ARCH defconfig -C $BUILD_DIR/busybox-1.31.1
-make -j$PARALLEL_JOBS ARCH=$CONFIG_LINUX_ARCH CROSS_COMPILE="$TOOLS_DIR/bin/$CONFIG_TARGET-" -C $BUILD_DIR/busybox-1.31.1
-make -j$PARALLEL_JOBS ARCH=$CONFIG_LINUX_ARCH CROSS_COMPILE="$TOOLS_DIR/bin/$CONFIG_TARGET-" CONFIG_PREFIX=$ROOTFS_DIR install -C $BUILD_DIR/busybox-1.31.1
-if grep -q "CONFIG_UDHCPC=y" $BUILD_DIR/busybox-1.31.1/.config; then
+step "[5/9] Busybox"
+extract $SOURCES_DIR/busybox-1.34.1.tar.bz2 $BUILD_DIR
+make -j$PARALLEL_JOBS distclean -C $BUILD_DIR/busybox-1.34.1
+make -j$PARALLEL_JOBS ARCH=$CONFIG_LINUX_ARCH defconfig -C $BUILD_DIR/busybox-1.34.1
+make -j$PARALLEL_JOBS ARCH=$CONFIG_LINUX_ARCH CROSS_COMPILE="$TOOLS_DIR/bin/$CONFIG_TARGET-" -C $BUILD_DIR/busybox-1.34.1
+make -j$PARALLEL_JOBS ARCH=$CONFIG_LINUX_ARCH CROSS_COMPILE="$TOOLS_DIR/bin/$CONFIG_TARGET-" CONFIG_PREFIX=$ROOTFS_DIR install -C $BUILD_DIR/busybox-1.34.1
+if grep -q "CONFIG_UDHCPC=y" $BUILD_DIR/busybox-1.34.1/.config; then
   mkdir -pv $ROOTFS_DIR/usr/share/udhcpc
   cat > $ROOTFS_DIR/usr/share/udhcpc/default.script << "EOF"
 #!/bin/sh
@@ -304,7 +304,7 @@ EOF
   chmod -v 0755 $ROOTFS_DIR/usr/share/udhcpc/default.script
   install -m 0755 -dv $ROOTFS_DIR/usr/share/udhcpc/default.script.d
 fi
-if grep -q "CONFIG_SYSLOGD=y" $BUILD_DIR/busybox-1.31.1/.config; then
+if grep -q "CONFIG_SYSLOGD=y" $BUILD_DIR/busybox-1.34.1/.config; then
   mkdir -pv $ROOTFS_DIR/etc/init.d
   cat > $ROOTFS_DIR/etc/init.d/S01logging << "EOF"
 #!/bin/sh
@@ -350,7 +350,7 @@ exit $?
 EOF
   chmod -v 0755 $ROOTFS_DIR/etc/init.d/S01logging
 fi
-if grep -q "CONFIG_FEATURE_TELNETD_STANDALONE=y" $BUILD_DIR/busybox-1.31.1/.config; then
+if grep -q "CONFIG_FEATURE_TELNETD_STANDALONE=y" $BUILD_DIR/busybox-1.34.1/.config; then
   mkdir -pv $ROOTFS_DIR/etc/init.d
   cat > $ROOTFS_DIR/etc/init.d/S50telnet << "EOF"
 #!/bin/sh
@@ -395,8 +395,8 @@ exit $?
 EOF
   chmod -v 0755 $ROOTFS_DIR/etc/init.d/S50telnet
 fi
-cp -v $BUILD_DIR/busybox-1.31.1/examples/depmod.pl $TOOLS_DIR/bin/depmod.pl
-rm -rf $BUILD_DIR/busybox-1.31.1
+cp -v $BUILD_DIR/busybox-1.34.1/examples/depmod.pl $TOOLS_DIR/bin/depmod.pl
+rm -rf $BUILD_DIR/busybox-1.34.1
 
 step "[6/9] Install Bootscript"
 mkdir -pv $ROOTFS_DIR/etc/init.d
